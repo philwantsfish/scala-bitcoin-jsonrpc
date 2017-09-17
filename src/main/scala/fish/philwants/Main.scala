@@ -2,7 +2,7 @@ package fish.philwants
 
 
 object Main {
-  val uri = "http://192.168.0.11:8332"
+  val uri = sys.env("RPC_URI")
   val username = sys.env("RPC_USERNAME")
   val password = sys.env("RPC_PASSWORD")
 
