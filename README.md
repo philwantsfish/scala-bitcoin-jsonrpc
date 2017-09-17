@@ -27,7 +27,7 @@ val client = JsonRpcClient("http://<ip>:8332", "username", "password")
 import client._
 ```
 
-Using the APIs is very similar to using the bitcoin-cli. For example `getinfo()` will run the bitcoin-cli command `getinfo`:
+The API is very similar to the bitcoin-cli. For example `getinfo()` will run the bitcoin-cli command `getinfo`:
 
 ```scala
 println(getinfo())
