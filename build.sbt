@@ -1,0 +1,13 @@
+name := "scala-jsonrpc"
+
+version := "1.0"
+
+scalaVersion := "2.12.3"
+
+libraryDependencies ++= Seq(
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
+  "ch.qos.logback" %  "logback-classic" % "1.1.7",
+  "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+  "org.scalaj" %% "scalaj-http" % "2.3.0",
+  "io.spray" %%  "spray-json" % "1.3.3"
+)
