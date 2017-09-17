@@ -64,10 +64,11 @@ object Main {
     val client = JsonRpcClient(uri, username, password)
     import client._
 
-    println(validateaddress("17PTtGEgxkc78RzpyFi4ZuyUdPDmvGcHu8"))
+//    println(validateaddress("17PTtGEgxkc78RzpyFi4ZuyUdPDmvGcHu8"))
+    println(getinfo())
   }
 
   def main(args: Array[String]): Unit = {
-    example_3()
+    example_2()
   }
 }

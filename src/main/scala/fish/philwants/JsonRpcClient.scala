@@ -41,6 +41,8 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 
   def getblockcount(): Int = send[Int](request("getblockcount")).result
 
+  def getblockhash(height: Int): String = send[String](request("getblockhash", s"$height")).result
+
   def decoderawtransaction(rawtransaction: String): Transaction =
     send[JsObject](request("decoderawtransaction", s""""$rawtransaction"""")).result.convertTo[Transaction]
 
@@ -53,8 +55,6 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 //  def gethashespersec(): Int = send[Int](request("gethashespersec")).result
 
   def getdifficulty(): Double = send[Double](request("getdifficulty")).result
-
-  def getblockhash(height: Int): String = send[String](request("getblockhash", s"$height")).result
 
   def getinfo(): GetInfo = send[JsObject](request("getinfo")).result.convertTo[GetInfo]
 
