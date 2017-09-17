@@ -60,7 +60,7 @@ prints:
 Example 3-4 in [Mastering Bitcoin](https://www.amazon.ca/Mastering-Bitcoin-Unlocking-Digital-Cryptocurrencies/dp/1449374042) showed the reader how to retrieve a transaction and iterate the outputs in python. Here is the same snippet, but in Scala:
 
 ```scala
-al client = JsonRpcClient(uri, username, password)
+val client = JsonRpcClient(uri, username, password)
 import client._
 
 // Alice's transaction ID
