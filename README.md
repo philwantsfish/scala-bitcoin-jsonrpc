@@ -1,6 +1,6 @@
 # Scala Bitcoin Json RPC
 
-A [Bitcoin client](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) wrapper for Scala. Each API name and parameter list matches the original Bitcoin API.
+A [Bitcoin client](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) for Scala. Each API name and parameter list matches the original Bitcoin API.
 
 Currently supports the following APIs:
 - getblock
