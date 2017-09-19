@@ -97,7 +97,7 @@ val client = JsonRpcClient(uri, username, password)
 import client._
 
 
-// A block height, coped from Example 3-5 in Mastering Bitcoin
+// A block height, copied from Example 3-5 in Mastering Bitcoin
 val blockHeight = 277316
 
 // Get the block hash with height 277316
