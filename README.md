@@ -114,7 +114,7 @@ val blockValue = transactionIds.map { txid =>
   // Get the transaction from its id
   val raw_tx = getrawtransaction(txid)
   val transaction = decoderawtransaction(raw_tx)
-  
+
   // Iterate over each transaction summing the values
   transaction.vout.map(_.value).sum
 }.sum
@@ -124,3 +124,11 @@ which prints:
 ```text
 Total value in block 10322.07722534
 ```
+
+## Bugs & Feature Requests
+
+Please use the GitHub [issue](https://github.com/philwantsfish/scala-bitcoin-jsonrpc/issues/new) to report bugs or request features.
+
+## Troubleshooting
+
+Ensure bitcoind is configured correctly. To explore the blockchain ensure that the txindex=1 config is set. To manage a local wallet ensure that the wallet functionality is installed. 
