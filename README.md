@@ -114,10 +114,9 @@ val blockValue = transactionIds.map { txid =>
   // Get the transaction from its id
   val raw_tx = getrawtransaction(txid)
   val transaction = decoderawtransaction(raw_tx)
+  
   // Iterate over each transaction summing the values
-  transaction.vout.map { t =>
-    t.value
-  }.sum
+  transaction.vout.map(_.value).sum
 }.sum
 ```
 which prints:
