@@ -64,6 +64,10 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   def listaccounts(confirmations: Int = 1): Map[String, Double] =
     send[JsObject](request("listaccounts", s"$confirmations")).result.convertTo[Map[String, Double]]
 
+  def listunspent(minconf: Int = 1, maxconf: Int = 999999): List[Unspent] = {
+    send[JsObject](request("listunspent", s"$minconf, $maxconf")).result.convertTo[List[Unspent]]
+  }
+
   // listreceivedbyaccount
   // listreceivedbyaddress
   // listtransactions
@@ -74,6 +78,9 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 
   def getrawtransaction(txid: String, verbose: Boolean = false): String =
     send[String](request("getrawtransaction", s""""$txid", $verbose""")).result
+
+  def sendrawtransaction(transactionHex: String): String =
+    send[String](request("sendrawtransaction", s""""$transactionHex""")).result
 
   def getrawmempool(): Seq[String] = send[Seq[String]](request("getrawmempool")).result
 
