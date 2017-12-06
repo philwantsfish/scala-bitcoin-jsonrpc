@@ -64,8 +64,8 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   def listaccounts(confirmations: Int = 1): Map[String, Double] =
     send[JsObject](request("listaccounts", s"$confirmations")).result.convertTo[Map[String, Double]]
 
-  def listunspent(minconf: Int = 1, maxconf: Int = 999999): List[Unspent] = {
-    send[JsObject](request("listunspent", s"$minconf, $maxconf")).result.convertTo[List[Unspent]]
+  def listunspent(minconf: Int = 1, maxconf: Int = 999999, addresses: Seq[String] = Seq.empty): List[Unspent] = {
+    send[JsArray](request("listunspent", s"""$minconf, $maxconf, "[${addresses.mkString("\\\"","\\\",\\\"","\\\"")}]"""")).result.convertTo[List[Unspent]]
   }
 
   // listreceivedbyaccount
@@ -80,11 +80,26 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
     send[String](request("getrawtransaction", s""""$txid", $verbose""")).result
 
   def sendrawtransaction(transactionHex: String): String =
-    send[String](request("sendrawtransaction", s""""$transactionHex""")).result
+    send[String](request("sendrawtransaction", s""""$transactionHex"""")).result
 
   def getrawmempool(): Seq[String] = send[Seq[String]](request("getrawmempool")).result
 
   def validateaddress(address: String): ValidateAddress = send[JsObject](request("validateaddress", s""""$address"""")).result.convertTo[ValidateAddress]
 }
 
+//object JsonRpcClient {
+//
+//  def main(args: Array[String]): Unit = {
+//    val client = new JsonRpcClient("http://127.0.0.1:8332", "rt", "rt")
+//
+//    try {
+//      val s = client.listunspent()
+//      println(s)
+//    }
+//    catch {
+//      case e: DeserializationException => println("deserialization error");println("fields: " +e.fieldNames); e.cause.printStackTrace()
+//      case e => e.printStackTrace()
+//    }
+//  }
+//}
 
