@@ -65,7 +65,11 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
     send[JsObject](request("listaccounts", s"$confirmations")).result.convertTo[Map[String, Double]]
 
   def listunspent(minconf: Int = 1, maxconf: Int = 999999, addresses: Seq[String] = Seq.empty): List[Unspent] = {
-    send[JsArray](request("listunspent", s"""$minconf, $maxconf, "[${addresses.mkString("\\\"","\\\",\\\"","\\\"")}]"""")).result.convertTo[List[Unspent]]
+    val ads = addresses.isEmpty match {
+      case true => ""
+      case false => s"[${addresses.mkString("\"", "\",\"", "\"")}]"
+    }
+    send[JsArray](request("listunspent", s"""$minconf, $maxconf""")).result.convertTo[List[Unspent]]
   }
 
   // listreceivedbyaccount
@@ -93,7 +97,7 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 //    val client = new JsonRpcClient("http://127.0.0.1:8332", "rt", "rt")
 //
 //    try {
-//      val s = client.listunspent()
+//      val s = client.listunspent(addresses = Seq("n1kFgPuMd4eJ1CtWdiZ9yeoe8M6auyjA2Y"))
 //      println(s)
 //    }
 //    catch {
