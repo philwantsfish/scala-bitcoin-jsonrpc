@@ -67,14 +67,17 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   def listunspent(minconf: Int = 1, maxconf: Int = 999999, addresses: Seq[String] = Seq.empty): List[Unspent] = {
     val ads = addresses.isEmpty match {
       case true => ""
-      case false => s"[${addresses.mkString("\"", "\",\"", "\"")}]"
+      case false => s", [${addresses.mkString("\"", "\",\"", "\"")}]"
     }
-    send[JsArray](request("listunspent", s"""$minconf, $maxconf""")).result.convertTo[List[Unspent]]
+    send[JsArray](request("listunspent", s"""$minconf, $maxconf $ads""")).result.convertTo[List[Unspent]]
   }
 
   // listreceivedbyaccount
   // listreceivedbyaddress
   // listtransactions
+
+  def importaddress(address: String): Unit = send[Unit](request("importaddress", s""""$address"""").timeout(600000, 600000)).result
+
 
   def getmininginfo(): MiningInfo = send[JsObject](request("getmininginfo")).result.convertTo[MiningInfo]
 
@@ -91,19 +94,25 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   def validateaddress(address: String): ValidateAddress = send[JsObject](request("validateaddress", s""""$address"""")).result.convertTo[ValidateAddress]
 }
 
-//object JsonRpcClient {
-//
-//  def main(args: Array[String]): Unit = {
-//    val client = new JsonRpcClient("http://127.0.0.1:8332", "rt", "rt")
-//
-//    try {
-//      val s = client.listunspent(addresses = Seq("n1kFgPuMd4eJ1CtWdiZ9yeoe8M6auyjA2Y"))
-//      println(s)
-//    }
-//    catch {
-//      case e: DeserializationException => println("deserialization error");println("fields: " +e.fieldNames); e.cause.printStackTrace()
-//      case e => e.printStackTrace()
-//    }
-//  }
-//}
+object JsonRpcClient {
+
+  def main(args: Array[String]): Unit = {
+    val client = new JsonRpcClient("http://127.0.0.1:8332", "rt", "rt")
+
+    val address = "mnmkbfzbG8Z2csrxjYXYkM1CPFPPETjZ2R"
+    try {
+      val s = client.listunspent(addresses = Seq(address))
+      println(s)
+      println("-----------------")
+      client.importaddress(address)
+
+      val s1 = client.listunspent(addresses = Seq(address))
+      println(s1)
+    }
+    catch {
+      case e: DeserializationException => println("deserialization error");println("fields: " +e.fieldNames); e.cause.printStackTrace()
+      case e: Throwable => e.printStackTrace()
+    }
+  }
+}
 
