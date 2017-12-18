@@ -61,8 +61,8 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   // TODO: This only works on wallet transactions. Will need to create a type for this return
   def gettransaction(hash: String): JsObject = send[JsObject](request("gettransaction", s""""$hash"""")).result
 
-  def listaccounts(confirmations: Int = 1): Map[String, Double] =
-    send[JsObject](request("listaccounts", s"$confirmations")).result.convertTo[Map[String, Double]]
+  def listaccounts(confirmations: Int = 1): Map[String, BigDecimal] =
+    send[JsObject](request("listaccounts", s"$confirmations")).result.convertTo[Map[String, BigDecimal]]
 
   def listunspent(minconf: Int = 1, maxconf: Int = 999999, addresses: Seq[String] = Seq.empty): List[Unspent] = {
     val ads = addresses.isEmpty match {
@@ -80,7 +80,8 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 
   def getmininginfo(): MiningInfo = send[JsObject](request("getmininginfo")).result.convertTo[MiningInfo]
 
-  def getnewaddress(): String = send[String](request("getnewaddress")).result
+  def getnewaddress(account: Option[String] = None): String =
+    send[String](account.fold(request("getnewaddress"))(account => request("getnewaddress", s""""$account""""))).result
 
   def getrawtransaction(txid: String, verbose: Boolean = false): String =
     send[String](request("getrawtransaction", s""""$txid", $verbose""")).result
@@ -94,7 +95,15 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 
   def dumpprivkey(address: String): String = send[String](request("dumpprivkey", s""""$address"""")).result
 
-  def getbalance(address: String, minconf: Int = 1): BigDecimal = send[BigDecimal](request("getbalance", s""""$address", $minconf""")).result
+  def getbalance(account: String, minconf: Int = 1): BigDecimal = send[BigDecimal](request("getbalance", s""""$account", $minconf""")).result
+
+  def sendfrom(fromAccount: String, toAddress: String, amount: BigDecimal): String =
+    send[String](request("sendfrom", s""""$fromAccount", "$toAddress", ${amount.toString()}""")).result
+
+  def generate(block: Int): Array[String] = send[JsArray](request("generate", block.toString)).result.convertTo[Array[String]]
+
+  def getaccountaddress(account: String): String = send[String](request("getaccountaddress", s""""$account"""")).result
+
 }
 
 //object JsonRpcClient {
