@@ -104,6 +104,9 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 
   def getaccountaddress(account: String): String = send[String](request("getaccountaddress", s""""$account"""")).result
 
+  def importprivkey(bitcoinprivkey: String): Unit =
+    send[Unit](request("importprivkey", s""""$bitcoinprivkey"""")).result
+
 }
 
 //object JsonRpcClient {
@@ -127,6 +130,17 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
 //
 //      val balance = client.getbalance("")
 //      println("balance: "+ balance)
+//
+//
+//
+//      val privkey = "cQX6mWZmhMsRtUYDfdHEzaY3tg4PutG4PREuRJPp3d14kD1"
+//
+//      client.importprivkey(privkey)
+//
+//      val unspents = client.listunspent(addresses = Seq("n1oJtj6AxX5YRsyBcr5cC7HVeZSLkwDbUQ"))
+//
+//      println("unspents: " + unspents)
+//
 //    }
 //    catch {
 //      case e: DeserializationException => println("deserialization error");println("fields: " +e.fieldNames); e.cause.printStackTrace()
