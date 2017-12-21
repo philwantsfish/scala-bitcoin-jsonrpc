@@ -107,6 +107,9 @@ final case class JsonRpcClient(uri: String, username: String, password: String) 
   def importprivkey(bitcoinprivkey: String): Unit =
     send[Unit](request("importprivkey", s""""$bitcoinprivkey"""")).result
 
+  def getaddressesbyaccount(account: String): List[String] =
+    send[JsArray](request("getaddressesbyaccount", s""""$account"""")).result.convertTo[List[String]]
+
 }
 
 //object JsonRpcClient {
