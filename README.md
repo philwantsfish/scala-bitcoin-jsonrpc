@@ -3,19 +3,31 @@
 A client library to communicate with [bitcoind](https://en.bitcoin.it/wiki/Bitcoind) via JSON-RPC in Scala. The library provides the ability to query the blockchain, the network, and manage a local wallet.
 
 Currently supports the following APIs:
+- decoderawtransaction
+- dumpprivkey
+- getaccountaddress
+- getaddressesbyaccount
+- getbalance
 - getblock
 - getblockcount
 - getblockhash
-- decoderawtransaction
 - getconnectioncount
 - getdifficulty
 - getinfo
-- listaccounts
+- generate
+- getnewaddress
 - getmininginfo
 - getnewaddress
 - getrawtransaction
 - getrawmempool
+- importaddress
+- importprivkey
+- listaccounts
+- listunspent
+- sendrawtransaction
+- sendfrom
 - validateaddress
+
 
 ## Usage
 
